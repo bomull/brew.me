@@ -1,0 +1,157 @@
+#:import hex kivy.utils.get_color_from_hex
+#:import EditableLabel editablelabel
+#:import Factory kivy.factory.Factory
+#:import Popup kivy.uix.popup
+#:import ScrollView kivy.uix.scrollview
+#:import Window kivy.core.window
+#:import RecycleView kivy.uix.recycleview
+#:import ModalView kivy.uix.modalview
+
+
+GridLayout:
+    rows: 5
+    canvas.before:
+        Color:
+            rgb: hex('#FCEFCC')
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 4
+        size_hint_y: None
+        height: 100
+
+        EditableLabel:
+            text: "name"
+            color: 0,0,0,1
+            font_name: "leaguespartan-bold"
+            font_size: 32
+
+        EditableLabel:
+            text: 'style'
+            font_name: 'leaguespartan-bold'
+            font_size: 32
+            color: 0,0,0,1
+        Image:
+            size_hint: 1, .1
+            source: "Food-Beer-icon-2.png"
+            canvas.before:
+                Color:
+                    rgb: hex('#Faef09')
+                Rectangle:  # hacky
+                    pos: self.pos[0]*1.15, self.pos[1]
+                    size: self.width/3, self.height*0.6
+        Label:
+            text: '0.0%[size=15] abv[/size]'
+            markup: True
+            font_size: 32
+            color:0,0,0,1
+            background_normal: 'brewtalbutton.png'
+            background_down: 'brewtalbutton.png'
+            border: (2,2,2,2)
+            font_name: "leaguespartan-bold.ttf"
+
+    Separator
+    RelativeLayout:
+        ImageButton:
+            on_press: Factory.MaltPopup().open()
+            size_hint: None, None
+            size: 80, 80
+            pos: 50, 340
+            source: "barley.png"
+        Label:
+            text: "34% caramunich"
+            color: 0, 0, 0, 1
+            size_hint: 0.3, 0.25
+            pos: 150, 340
+            font_name: "leaguespartan-bold.ttf"
+        Image:
+            source: "hop.png"
+            size_hint: None, None
+            size: 80, 80
+            pos: 50, 200
+        Label:
+            text: "durf"
+            color: 0, 0, 0, 1
+            size_hint: 0.3, 0.25
+            pos: 150, 200
+            font_name: "leaguespartan-bold.ttf"
+        Image:
+            source: "water-drop.png"
+            size_hint: None, None
+            size: 80, 80
+            pos: 50, 60
+        Label:
+            text: "no water added"
+            color: 0, 0, 0, 1
+            size_hint: 0.3, 0.25
+            pos: 150, 60
+            font_name: "leaguespartan-bold.ttf"
+
+    Separator
+    GridLayout:
+        cols: 3
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 50
+
+        Label:
+            id: time
+            text: '16:20'
+            size_hint: (.25, 1)
+            color: 0,0,0,1
+            markup: True
+            font_size: 20
+            font_name:"leaguespartan-bold.ttf"
+            halign: 'left'
+        Label:
+            text: '05:23'
+            size_hint: (.25, 1)
+            color: 0,0,0,1
+            font_size: 20
+            font_name:"leaguespartan-bold.ttf"
+        Label:
+            text: 'Next:' + "Instructions"
+            size_hint: (.5, 1)
+            color: 0,0,0,1
+            font_size: 20
+            font_name:"leaguespartan-bold.ttf"
+
+<MaltPopup@Popup>:
+    size_hint: .75, .75
+    title: ""
+    separator_height: 0
+    background: ""
+    GridLayout:
+        cols: 2
+        MaltRV:
+            id: rv_malts
+            viewclass: 'RVLabel'
+            RecycleBoxLayout:
+                orientation: 'vertical'
+                default_size: None, dp(56)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+
+
+        RstDocument:
+            id: malt_info
+
+<Separator@Widget>:
+    size_hint_y: None
+    thickness: 2
+    margin: 2
+    height: self.thickness + 2 * self.margin
+    color: 0,0,0,1
+    canvas:
+        Color:
+            rgb:self.color
+        Rectangle:
+            pos: self.x + self.margin, self.y + self.margin + 1
+            size: self.width - 2 * self.margin, self.thickness
+
+
+<RVLabel>:
+    color:0,0,0,1
